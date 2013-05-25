@@ -11,7 +11,6 @@ Anansi::Script::Shell - Defines the mechanisms specific to handling command line
 
 =head1 DESCRIPTION
 
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
 This module is designed to be an optional component module for use by the
 L<Anansi::Script> component management module.  It defines the processes
 specific to handling both input and output from Perl scripts that are executed
@@ -20,7 +19,7 @@ from a command line.  See L<Anansi::Component> for inherited methods.
 =cut
 
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use base qw(Anansi::Component);
 
