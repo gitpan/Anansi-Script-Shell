@@ -11,15 +11,16 @@ Anansi::Script::Shell - Defines the mechanisms specific to handling command line
 
 =head1 DESCRIPTION
 
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
 This module is designed to be an optional component module for use by the
-"Anansi::Script" component management module.  It defines the processes specific
-to handling both input and output from Perl scripts that are executed from a
-command line.
+L<Anansi::Script> component management module.  It defines the processes
+specific to handling both input and output from Perl scripts that are executed
+from a command line.  See L<Anansi::Component> for inherited methods.
 
 =cut
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use base qw(Anansi::Component);
 
@@ -120,12 +121,12 @@ sub loadParameters {
     for(my $index = 0; $index < scalar(@ARGV); $index++) {
         if($ARGV[$index] =~ /^[a-zA-Z]+[a-zA-Z0-9_-]*=.*$/) {
             my ($name, $value) = ($ARGV[$index] =~ /^([a-zA-Z]+[a-zA-Z0-9_-]*)=(.*)$/);
-            %{$self->{PARAMETERS}}->{$name} = $value;
+            ${$self->{PARAMETERS}}{$name} = $value;
         } elsif($ARGV[$index] =~ /^-[a-zA-Z]+[a-zA-Z0-9_-]*=.*$/) {
             my ($name, $value) = ($ARGV[$index] =~ /^-([a-zA-Z]+[a-zA-Z0-9_-]*)=(.*)$/);
-            %{$self->{PARAMETERS}}->{$name} = $value;
+            ${$self->{PARAMETERS}}{$name} = $value;
         } else {
-            %{$self->{PARAMETERS}}->{$index} = $ARGV[$index];
+            ${$self->{PARAMETERS}}{$index} = $ARGV[$index];
         }
     }
 }
@@ -199,17 +200,17 @@ sub parameter {
     } elsif(1 == scalar(@_)) {
         my $name = shift(@_);
         return if(!defined($self->{PARAMETERS}));
-        return if(!defined(%{$self->{PARAMETERS}}->{$name}));
-        return %{$self->{PARAMETERS}}->{$name};
+        return if(!defined(${$self->{PARAMETERS}}{$name}));
+        return ${$self->{PARAMETERS}}{$name};
     } elsif(1 == scalar(@_) % 2) {
         return 0;
     }
     my ($name, %parameters) = @_;
     foreach my $name (keys(%parameters)) {
-        if(defined(%{$self->{PARAMETERS}}->{$name})) {
-            %{$self->{PARAMETERS}}->{$name} = $parameters{$name};
+        if(defined(${$self->{PARAMETERS}}{$name})) {
+            ${$self->{PARAMETERS}}{$name} = $parameters{$name};
         } else {
-            delete(%{$self->{PARAMETERS}}->{$name});
+            delete(${$self->{PARAMETERS}}{$name});
         }
     }
     return 1;
